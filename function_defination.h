@@ -1,4 +1,43 @@
 #include"function_declaration.h"
+FILE *fp;
+int currentInnings;
+char filename[50] = "imran.txt";
+
+struct GameDetails {
+    char copmetitionName[50];
+    char venue[50];
+    char matchBetween[20];
+    char versus[20];
+    char tossWonBy[20];
+    char electedTo[15];
+    char date[15];
+}gameDetails;
+
+struct matchDetails {
+    int innings;
+    int totalRuns;
+    float overPlayed;
+    float runRate;
+}inningsA, inningsB;
+
+struct batsMan {
+    char name[30];
+    int runs;
+    int balls;
+    char status[10];
+    int fours;
+    int sixes;
+}batsManTeamA[11], batsManTeamB[11];
+
+struct bowler {
+    char name[30];
+    float overs;
+    int runs;
+    int wicket;
+    int maiden;
+    float economy;
+    int extra;
+}bowlerTeamA[8], bowlerTeamB[8];
 
 void gotorc(int row, int column) {
     printf("\033[%d;%df", row, column);
@@ -18,20 +57,30 @@ void menu() {
     gotorc(8,38);
     printf("\033[5;1;37m Enter your choice: \033[0;m ");
     scanf("%d",&choice);
-    fflush(stdin);
+    getchar();
     
     switch(choice)
     {
-        case 1: inputGameDetails(); break;
+        case 1: inputGameDetails();
+                gotorc(6,90);
+                printf("Press Y to save the file: ");
+                getchar(); fileWrite();
+                gotorc(7,90);
+                printf("File saved Successfully");
+                gotorc(9,90);
+                printf("Press Any Key To Return To Main Menu");
+                getchar(); menu();
+                break;
 
         case 2: puts("case 2"); break;
 
         case 3: puts("case 3"); break;
 
-        default:    gotorc(10,36);
-                    printf("\033[2;31mInvalid Choice!~ Please try again.");
-                    menu();
-                    break;
+        default:
+                gotorc(10,36);
+                printf("\033[2;31mInvalid Choice!~ Please try again.");
+                menu();
+                break;
     }
     
 }
@@ -39,7 +88,151 @@ void inputGameDetails() {
     system("clear");
     display();
 
+    gotorc(1,16);
+    fgets(gameDetails.copmetitionName,50,stdin);
+    gotorc(1,47);
+    fgets(gameDetails.venue,50,stdin);
+    gotorc(3,16);
+    fgets(gameDetails.matchBetween,20,stdin);
+    gotorc(3,47);
+    fgets(gameDetails.versus,20,stdin);
+    gotorc(5,16);
+    fgets(gameDetails.tossWonBy,20,stdin);
+    gotorc(5,47);
+    fgets(gameDetails.electedTo,15,stdin);
+
+    int inningsNO;
+    gotorc(7,16);
+    scanf("%d",&inningsNO);
+    if(inningsNO==1) {
+        inningsA.innings = 1;
+        currentInnings = 1;
+    }
+    else {
+        inningsB.innings = 2;
+        currentInnings = 2;
+    }
+    getchar();
     
+    gotorc(7,47);
+    fgets(gameDetails.date,15,stdin);
+
+    inputPlayer();
+    return;
+}
+void inputPlayer()
+{   
+    // display();
+    // currentInnings = 1;
+    if(currentInnings==1)
+    {
+        for(int i=0; i<11; i++)
+        {
+            gotorc(10+(i+1),13);
+            fgets(batsManTeamA[i].name,30,stdin);
+            gotorc(10+(i+1),39);
+            scanf("%d",&batsManTeamA[i].runs);
+            gotorc(10+(i+1),53);
+            scanf("%d",&batsManTeamA[i].balls);
+            gotorc(10+(i+1),65);
+            scanf("%d",&batsManTeamA[i].fours);
+            gotorc(10+(i+1),75);
+            scanf("%d",&batsManTeamA[i].sixes);
+            getchar();
+        }
+        for(int i=0; i<8; i++){
+            gotorc(26+(i+1),11);
+            fgets(bowlerTeamA[i].name,30,stdin);
+            gotorc(26+(i+1),37);
+            scanf("%f",&bowlerTeamA[i].overs);
+            gotorc(26+(i+1),46);
+            scanf("%d",&bowlerTeamA[i].maiden);
+            gotorc(26+(i+1),52);
+            scanf("%d",&bowlerTeamA[i].runs);
+            gotorc(26+(i+1),58);
+            scanf("%d",&bowlerTeamA[i].wicket);
+            gotorc(26+(i+1),68);
+            scanf("%d",&bowlerTeamA[i].extra);
+            gotorc(26+(i+1),75);
+            scanf("%f",&bowlerTeamA[i].economy);
+            getchar();
+        }
+
+        gotorc(7,90);
+        printf("Press C to continue to Innings 2: ");
+        if(getchar()=='c' || getchar()=='C')
+        {
+            currentInnings = 2;
+            inputPlayer();
+        }
+    }
+    else{
+        for(int i=0; i<11; i++)
+        {
+            gotorc(10+(i+1),13);
+            fgets(batsManTeamA[i].name,30,stdin);
+            gotorc(10+(i+1),39);
+            scanf("%d",&batsManTeamA[i].runs);
+            gotorc(10+(i+1),53);
+            scanf("%d",&batsManTeamA[i].balls);
+            gotorc(10+(i+1),65);
+            scanf("%d",&batsManTeamA[i].fours);
+            gotorc(10+(i+1),75);
+            scanf("%d",&batsManTeamA[i].sixes);
+            getchar();
+        }
+        for(int i=0; i<8; i++){
+            gotorc(26+(i+1),11);
+            fgets(bowlerTeamA[i].name,30,stdin);
+            gotorc(26+(i+1),37);
+            scanf("%f",&bowlerTeamA[i].overs);
+            gotorc(26+(i+1),46);
+            scanf("%d",&bowlerTeamA[i].maiden);
+            gotorc(26+(i+1),52);
+            scanf("%d",&bowlerTeamA[i].runs);
+            gotorc(26+(i+1),58);
+            scanf("%d",&bowlerTeamA[i].wicket);
+            gotorc(26+(i+1),68);
+            scanf("%d",&bowlerTeamA[i].extra);
+            gotorc(26+(i+1),75);
+            scanf("%f",&bowlerTeamA[i].economy);
+            getchar();
+        }
+
+    }
+    calculate();
+    return;
+}
+void calculate()
+{
+    int count,i;
+    
+    count = 0;
+    for(i=0; i<11; i++)
+        count += batsManTeamA[i].runs;
+    inningsA.totalRuns = count;
+
+    count = 0;
+    for(i=0; i<11; i++)
+        count += batsManTeamB[i].runs;
+    inningsB.totalRuns = count;
+
+    count = 0;
+    for(i=0; i<8; i++)
+        count += bowlerTeamA[i].overs;
+    inningsA.overPlayed = count;
+
+    count = 0;
+    for(i=0; i<8; i++)
+        count += bowlerTeamB[i].overs;
+    inningsB.overPlayed = count;
+
+    count = 0;
+
+    inningsA.runRate = (inningsA.totalRuns/inningsA.overPlayed);
+    inningsB.runRate = (inningsB.totalRuns/inningsB.overPlayed);
+
+    return;
 }
 void display()
 {
