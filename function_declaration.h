@@ -1,7 +1,10 @@
+void menu();
+void display();
 void date();
 void printt();
 void fileWrite();
 void fileRead();
 void fileOpen(char);
-int limitedInput(int);
+void inputGameDetails();
 void newScoreSheet();
+void gotorc(int x, int y);

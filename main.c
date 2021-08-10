@@ -1,9 +1,11 @@
 #include<stdio.h>
+#include<string.h>
 #include<stdlib.h>
-#include<function_declaration.h>
-#include<function_defination.h>
+#include<unistd.h>
+#include"function_declaration.h"
+#include"function_defination.h"
 
 int main()
-{
-    printf("Hello World!~");
+{   
+    menu();
 }
