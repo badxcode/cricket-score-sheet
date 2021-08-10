@@ -1,7 +1,9 @@
 #include"function_declaration.h"
 FILE *fp;
 int currentInnings;
-char filename[50] = "imran.txt";
+char filename[50];
+char extension[] = ".txt";
+char directory[60] = "File//";
 
 struct GameDetails {
     char copmetitionName[50];
@@ -64,17 +66,20 @@ void menu() {
         case 1: inputGameDetails();
                 gotorc(6,90);
                 printf("Press Y to save the file: ");
-                getchar(); fileWrite();
+                getchar(); getchar();
                 gotorc(7,90);
+                fileNameMaker(); 
+                fileWrite();
+                gotorc(8,90);
                 printf("File saved Successfully");
-                gotorc(9,90);
+                gotorc(10,90);
                 printf("Press Any Key To Return To Main Menu");
                 getchar(); menu();
                 break;
 
-        case 2: puts("case 2"); break;
+        case 2: fileRead(); menu(); break;
 
-        case 3: puts("case 3"); break;
+        case 3: exit(0);
 
         default:
                 gotorc(10,36);
@@ -361,4 +366,196 @@ void display()
     }
     */
 
+}
+void fileWrite()
+{   
+    fp = fopen(directory,"a+");
+    //strcpy(directory,"File//");
+    rewind(fp);
+    fwrite(&gameDetails,sizeof(gameDetails),1,fp);
+    fclose(fp);
+    
+    fp = fopen(directory,"a+");
+    fseek(fp,0,SEEK_END);
+    fwrite(&inningsA,sizeof(inningsA),1,fp);
+    fclose(fp);
+    
+    fp = fopen(directory,"a+");
+    fseek(fp,0,SEEK_END);
+    for(int i=1; i<=11; i++)
+        fwrite(&batsManTeamA,sizeof(batsManTeamA),i,fp);
+    fclose(fp);
+    
+    fp = fopen(directory,"a+");
+    fseek(fp,0,SEEK_END);
+    for(int i=1; i<=8; i++)
+        fwrite(&bowlerTeamB,sizeof(bowlerTeamA),i,fp);
+    fclose(fp);
+
+    fp = fopen(directory,"a+");
+    fseek(fp,0,SEEK_END);
+    fwrite(&inningsB,sizeof(inningsB),1,fp);
+
+    fp = fopen(directory,"a+");
+    fseek(fp,0,SEEK_END);
+    for(int i=1; i<=11; i++)
+        fwrite(&batsManTeamB,sizeof(batsManTeamB),i,fp);
+    fclose(fp);
+
+    fp = fopen(directory,"a+");
+    fseek(fp,0,SEEK_END);
+    for(int i=1; i<=8; i++)
+        fwrite(&bowlerTeamA,sizeof(bowlerTeamA),i,fp);
+    fclose(fp);
+    
+    return;
+}
+void fileRead()
+{   
+    fileNameMaker();
+
+    fp = fopen(directory,"r");
+    strcpy(directory,"File//");
+    rewind(fp);
+    
+    fread(&gameDetails,sizeof(gameDetails),1,fp);
+ 
+    fread(&inningsA,sizeof(inningsA),1,fp);
+
+    fread(&batsManTeamA,sizeof(batsManTeamA),11,fp);
+
+    fread(&bowlerTeamB,sizeof(bowlerTeamA),8,fp);
+
+
+    fread(&inningsB,sizeof(inningsB),1,fp);
+
+    fread(&batsManTeamB,sizeof(batsManTeamB),11,fp);
+
+    fread(&bowlerTeamA,sizeof(bowlerTeamA),8,fp);
+    
+    fclose(fp);
+    getchar();
+    system("clear");
+    printt();
+
+}
+void fileNameMaker()
+{   
+    printf("Enter the filename: ");
+    scanf(" %[^\n]",filename);
+    
+    // puts("Before cat: ");
+    // puts(filename);
+    // puts(extension);
+    // puts(directory);
+    strcat(filename,extension); // imran.txt
+    strcat(directory,filename); //File//imran.txt
+    // puts("After cat: ");
+    // puts(filename);
+    // puts(extension);
+    // puts(directory);
+    // FILE *ft = fopen(directory,"w+");
+}
+void printt()
+{
+    system("clear");
+    display();
+
+    gotorc(1,16);
+    printf("%s",gameDetails.copmetitionName);
+    gotorc(1,47);
+    printf("%s",gameDetails.venue);
+    gotorc(3,16);
+    printf("%s",gameDetails.matchBetween);
+    gotorc(3,47);
+    printf("%s",gameDetails.versus);
+    gotorc(5,16);
+    printf("%s",gameDetails.tossWonBy);
+    gotorc(5,47);
+    printf("%s",gameDetails.electedTo);
+    gotorc(7,47);
+    printf("%s",gameDetails.date);
+
+    int inningsNO;
+    gotorc(6,90);
+    printf("Enter which innings score you want to see: ");
+    scanf("%d",&inningsNO);
+    if(inningsNO==1) {
+        for(int i=0; i<11; i++)
+        {
+            gotorc(10+(i+1),13);
+            printf("%s",batsManTeamA[i].name);
+            gotorc(10+(i+1),39);
+            printf("%d",batsManTeamA[i].runs);
+            gotorc(10+(i+1),53);
+            printf("%d",batsManTeamA[i].balls);
+            gotorc(10+(i+1),65);
+            printf("%d",batsManTeamA[i].fours);
+            gotorc(10+(i+1),75);
+            printf("%d",batsManTeamA[i].sixes);
+            getchar();
+        }
+        for(int i=0; i<8; i++){
+            gotorc(26+(i+1),11);
+            printf("%s",bowlerTeamB[i].name);
+            gotorc(26+(i+1),37);
+            printf("%0.2f",bowlerTeamB[i].overs);
+            gotorc(26+(i+1),46);
+            printf("%d",bowlerTeamB[i].maiden);
+            gotorc(26+(i+1),52);
+            printf("%d",bowlerTeamB[i].runs);
+            gotorc(26+(i+1),58);
+            printf("%d",bowlerTeamB[i].wicket);
+            gotorc(26+(i+1),68);
+            printf("%d",bowlerTeamB[i].extra);
+            gotorc(26+(i+1),75);
+            printf("%0.2f",bowlerTeamB[i].economy);
+            getchar();
+        }
+        gotorc(23,36);
+        printf("%d",inningsA.totalRuns);
+        gotorc(23,50);
+        printf("%.0f",inningsA.overPlayed);
+        gotorc(23,70);
+        printf("%0.1f",inningsA.runRate);
+    }
+    else {
+
+        for(int i=0; i<11; i++)
+        {
+            gotorc(10+(i+1),13);
+            printf("%s",batsManTeamB[i].name);
+            gotorc(10+(i+1),39);
+            printf("%d",batsManTeamB[i].runs);
+            gotorc(10+(i+1),53);
+            printf("%d",batsManTeamB[i].balls);
+            gotorc(10+(i+1),65);
+            printf("%d",batsManTeamB[i].fours);
+            gotorc(10+(i+1),75);
+            printf("%d",batsManTeamB[i].sixes);
+            getchar();
+        }
+        for(int i=0; i<8; i++){
+            gotorc(26+(i+1),11);
+            printf("%s",bowlerTeamA[i].name);
+            gotorc(26+(i+1),37);
+            printf("%f",bowlerTeamA[i].overs);
+            gotorc(26+(i+1),46);
+            printf("%d",bowlerTeamA[i].maiden);
+            gotorc(26+(i+1),52);
+            printf("%d",bowlerTeamA[i].runs);
+            gotorc(26+(i+1),58);
+            printf("%d",bowlerTeamA[i].wicket);
+            gotorc(26+(i+1),68);
+            printf("%d",bowlerTeamA[i].extra);
+            gotorc(26+(i+1),75);
+            printf("%0.2f",bowlerTeamA[i].economy);
+        }
+        gotorc(23,36);
+        printf("%d",inningsB.totalRuns);
+        gotorc(23,50);
+        printf("%.0f",inningsB.overPlayed);
+        gotorc(23,70);
+        printf("%0.1f",inningsB.runRate);
+    }
 }

@@ -7,10 +7,12 @@
 
 int main()
 {   
-    //menu();
+    menu();
     //inputGameDetails();
     //printf("in main\n");
     //inputPlayer();
-    fileWrite();
+    // fileWrite();
+    //fileRead();
+    //fileNameMaker();
     return 0;
 }

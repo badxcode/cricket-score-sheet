@@ -6,6 +6,7 @@ void printt();
 
 void fileWrite();
 void fileRead();
+void fileNameMaker();
 
 void fileOpen(char);
 
