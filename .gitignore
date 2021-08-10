@@ -56,3 +56,4 @@ main
 
 #other files
 .vscode
+*.txt
