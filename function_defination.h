@@ -382,14 +382,14 @@ void fileWrite()
     
     fp = fopen(directory,"a+");
     fseek(fp,0,SEEK_END);
-    for(int i=1; i<=11; i++)
-        fwrite(&batsManTeamA,sizeof(batsManTeamA),i,fp);
+    for(int i=0; i<11; i++)
+        fwrite(&batsManTeamA[i],sizeof(batsManTeamA[0]),1,fp);
     fclose(fp);
     
     fp = fopen(directory,"a+");
     fseek(fp,0,SEEK_END);
-    for(int i=1; i<=8; i++)
-        fwrite(&bowlerTeamB,sizeof(bowlerTeamA),i,fp);
+    for(int i=0; i<8; i++)
+        fwrite(&bowlerTeamB[i],sizeof(bowlerTeamB[0]),1,fp);
     fclose(fp);
 
     fp = fopen(directory,"a+");
@@ -398,14 +398,14 @@ void fileWrite()
 
     fp = fopen(directory,"a+");
     fseek(fp,0,SEEK_END);
-    for(int i=1; i<=11; i++)
-        fwrite(&batsManTeamB,sizeof(batsManTeamB),i,fp);
+    for(int i=0; i<11; i++)
+        fwrite(&batsManTeamB[i],sizeof(batsManTeamB[0]),1,fp);
     fclose(fp);
 
     fp = fopen(directory,"a+");
     fseek(fp,0,SEEK_END);
-    for(int i=1; i<=8; i++)
-        fwrite(&bowlerTeamA,sizeof(bowlerTeamA),i,fp);
+    for(int i=0; i<8; i++)
+        fwrite(&bowlerTeamA[i],sizeof(bowlerTeamA[0]),1,fp);
     fclose(fp);
     
     return;
@@ -422,16 +422,20 @@ void fileRead()
  
     fread(&inningsA,sizeof(inningsA),1,fp);
 
-    fread(&batsManTeamA,sizeof(batsManTeamA),11,fp);
-
-    fread(&bowlerTeamB,sizeof(bowlerTeamA),8,fp);
+    for(int i=0; i<11; i++)
+        fread(&batsManTeamA[i],sizeof(batsManTeamA[0]),1,fp);
+    
+    for(int i=0; i<8; i++)
+        fread(&bowlerTeamB[i],sizeof(bowlerTeamB[0]),1,fp);
 
 
     fread(&inningsB,sizeof(inningsB),1,fp);
 
-    fread(&batsManTeamB,sizeof(batsManTeamB),11,fp);
+    for(int i=0; i<11; i++)
+        fread(&batsManTeamB[i],sizeof(batsManTeamB[0]),1,fp);
 
-    fread(&bowlerTeamA,sizeof(bowlerTeamA),8,fp);
+    for(int i=0; i<8; i++)
+        fread(&bowlerTeamA[i],sizeof(bowlerTeamA[0]),1,fp);
     
     fclose(fp);
     getchar();
